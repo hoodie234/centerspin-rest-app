@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com</groupId>
-    <artifactId>centerspin-rest-app</artifactId>
+    <artifactId>centerspin</artifactId>
     <version>1</version>
     <packaging>war</packaging>
 
-    <name>centerspin-rest-app</name>
+    <name>centerspin</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
