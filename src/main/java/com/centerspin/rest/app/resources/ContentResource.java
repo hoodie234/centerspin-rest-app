@@ -1,5 +1,5 @@
 package com.centerspin.rest.app.resources;
-import com.centerspin.rest.app.ArticleCache;
+import com.centerspin.app.ArticleCache;
 import com.centerspin.utils.Constants;
 import java.util.*;
 import javax.ws.rs.*;

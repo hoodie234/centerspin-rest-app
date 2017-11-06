@@ -1,4 +1,4 @@
-package com.centerspin.rest.app;
+package com.centerspin.app;
 import com.centerspin.utils.Constants;
 import com.centerspin.rest.app.resources.ScraperResource;
 import com.centerspin.rest.app.resources.SubmitResource;

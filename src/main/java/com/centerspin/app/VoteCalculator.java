@@ -1,4 +1,4 @@
-package com.centerspin.rest.app;
+package com.centerspin.app;
 import com.centerspin.utils.Constants;
 import java.util.*;
 import org.json.*;
