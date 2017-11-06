@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <title>Start Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <p>Welcome to the submit page</p>
+        
+        <input id="url" type="text" placeholder="Article URL">
+        <button id="submit">Submit</button>
+        
+        
+        <script>
+            
+            
+            
+            $("#submit").click(function(){
+                var urlString = $("#url").val();
+            
+                console.log(urlString);
+
+                var articleRequest = {
+                    url : urlString
+                };
+
+                $.post("scraper", articleRequest, function(response) {
+                    console.log(response);
+                });
+            });
+            
+            
+        </script>
+    </body>
+</html>
