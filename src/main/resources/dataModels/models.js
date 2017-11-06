@@ -1,31 +1,35 @@
 var articleModel = {
+    id : "{8 char GUID}",
+    timeStamp: 0,
     
-    id : "XVDe45h",
-    timeStamp: 1231352431,
-    
-    url : "http://www....",
-    source : "www.cnn.com",
+    url : "",
+    source : "",
     title : "",
     description : "",
     image : "",
     
     biasMetrics : biasMetricsModel,
-    averageRating: 3.42,
-    score : 75.3,
-    numVotes : 342,
+    averageRating: 0,
+    score : 0,
+    numVotes : 0,
     
-    submittedBy : "2sdfFBC"
-    
+    submittedBy : "{userID}"
 };
 
 var biasMetricsModel = {
-    
+    contentRating : 0,
+    analysisRating : 0,
+    contextRating : 0
 };
 
 
 var voteRequestModel = {
-    
-}
+    articleID : "",
+    userID : "",
+    biasMetrics : biasMetricsModel
+};
+
+
 var voteModel = {
     
 }
