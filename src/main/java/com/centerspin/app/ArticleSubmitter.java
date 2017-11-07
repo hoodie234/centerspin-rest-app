@@ -14,7 +14,7 @@ public class ArticleSubmitter {
         
         // Add new GUI * timestamp
         articleData.put(Constants.id, GUI.getNewGUI());
-        articleData.put(Constants.timestamp, new Date().toString());
+        articleData.put(Constants.timestamp, System.currentTimeMillis());
         
         // Add empty set of bias metrics to articleData
         JSONObject biasMetrics = new JSONObject();
