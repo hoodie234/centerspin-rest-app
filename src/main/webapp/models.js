@@ -1,14 +1,7 @@
 
-// Data recieved @ /submit/article 
-var newArticleRequest = {
-    url : "",
-    source : "",
-    title : "",
-    description : "",
-    image : "",
-    
-    submittedBy : "",
-}
+/*
+ * This document outlines the data schema for CenterSpin data types
+ */
 
 // Final schema of article in DB
 var articleModel = {
@@ -34,13 +27,6 @@ var biasMetricsModel = {
     contentRating : 0,
     analysisRating : 0,
     contextRating : 0
-};
-
-// New vote request recieved at /submit/vote
-var voteRequestModel = {
-    articleID : "",
-    userID : "",
-    biasMetrics : biasMetricsModel
 };
 
 // Final schema of vote in DB
