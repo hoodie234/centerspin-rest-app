@@ -39,6 +39,7 @@ public class VoteSubmitter extends Thread {
             // Get previous votes on same article
             try {
                 articleVotes = new HttpRequest(Constants.API_BASE_URL + "/votes/article/" + articleID)
+                        .setReadTimeout(2000)
                         .get()
                         .toJSONArray();
             } catch (IOException e) {
