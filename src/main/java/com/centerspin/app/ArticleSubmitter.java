@@ -14,14 +14,13 @@ public class ArticleSubmitter {
         
         // Add new GUI * timestamp
         articleData.put(Constants.id, GUI.getNewGUI());
-        articleData.put(Constants.submitTime, new Date().toString());
+        articleData.put(Constants.timestamp, new Date().toString());
         
         // Add empty set of bias metrics to articleData
         JSONObject biasMetrics = new JSONObject();
-        biasMetrics.put(Constants.accuracy, -1);
-        biasMetrics.put(Constants.sources, -1);
-        biasMetrics.put(Constants.objectivity, -1);
-        biasMetrics.put(Constants.context, -1);
+        biasMetrics.put(Constants.contentRating, -1);
+        biasMetrics.put(Constants.analysisRating, -1);
+        biasMetrics.put(Constants.contextRating, -1);
         biasMetrics.put(Constants.avgRating, -1);
         biasMetrics.put(Constants.score, -1);
         

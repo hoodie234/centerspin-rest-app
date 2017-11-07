@@ -10,10 +10,10 @@ import org.json.JSONObject;
 
 public class VoteSubmitter extends Thread {
         
-        private final JSONObject newVoteData;
+        private final JSONObject newVoteRequest;
         
         public VoteSubmitter(JSONObject voteRequest) {
-            this.newVoteData = voteRequest;
+            this.newVoteRequest = voteRequest;
         }
         
         @Override
@@ -21,7 +21,7 @@ public class VoteSubmitter extends Thread {
             
             // Pull user & article id from request
 //            String userID = voteRequest.getString(Constants.userID);
-            String articleID = newVoteData.getString(Constants.articleID);
+            String articleID = newVoteRequest.getString(Constants.articleID);
                         
             JSONObject articleData;
             JSONArray articleVotes;
@@ -47,7 +47,7 @@ public class VoteSubmitter extends Thread {
             }
                             
             // Add current vote request to previous votes array (so that it will be part of the tally)
-            articleVotes.put(newVoteData);
+            articleVotes.put(newVoteRequest);
                         
             System.out.println(articleVotes.toString(4));
             
@@ -66,16 +66,16 @@ public class VoteSubmitter extends Thread {
             articleMetricsSnapshot.put(Constants.after, articleData.getJSONObject(Constants.biasMetrics));
                         
             // Put Article data snapshot into new Vote
-            newVoteData.put(Constants.articleMetrics, articleMetricsSnapshot);
+            newVoteRequest.put(Constants.articleMetrics, articleMetricsSnapshot);
             
             // Add addtl. data to vote request
-            newVoteData.put(Constants.id, GUI.getNewGUI());
-            newVoteData.put(Constants.submitTime, new Date().toString());
+            newVoteRequest.put(Constants.id, GUI.getNewGUI());
+            newVoteRequest.put(Constants.timestamp, new Date().toString());
                         
             // Put vote in DB
             try {
                 new HttpRequest(Constants.API_BASE_URL + "/votes")
-                        .requestBody(newVoteData.toString())
+                        .requestBody(newVoteRequest.toString())
                         .post();
             } catch (IOException e) {
                 System.out.println("Error posting to /votes");

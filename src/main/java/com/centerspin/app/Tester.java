@@ -77,10 +77,9 @@ public class Tester {
         requestJO.put(Constants.articleID, "eFlSkso2");
         
         JSONObject biasMetrics = new JSONObject();
-        biasMetrics.put(Constants.accuracy, 1);
-        biasMetrics.put(Constants.sources, 1);
-        biasMetrics.put(Constants.objectivity, 1);
-        biasMetrics.put(Constants.context, 1);
+        biasMetrics.put(Constants.contentRating, 1);
+        biasMetrics.put(Constants.analysisRating, 1);
+        biasMetrics.put(Constants.contextRating, 1);
         
         requestJO.put(Constants.biasMetrics, biasMetrics);
                 
