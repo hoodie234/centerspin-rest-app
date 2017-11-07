@@ -54,4 +54,7 @@ public class Constants {
     public static final String avgRating = "avgRating";
     public static final String score = "score";
     
+    // Article Sort Fields
+    public static final String scoreSort = "scoreSort";
+    public static final String newest = "newest";
 }
