@@ -71,7 +71,7 @@ public class VoteSubmitter extends Thread {
             
             // Add addtl. data to vote request
             newVoteRequest.put(Constants.id, GUI.getNewGUI());
-            newVoteRequest.put(Constants.timestamp, new Date().toString());
+            newVoteRequest.put(Constants.timestamp, System.currentTimeMillis());
                         
             // Put vote in DB
             try {
