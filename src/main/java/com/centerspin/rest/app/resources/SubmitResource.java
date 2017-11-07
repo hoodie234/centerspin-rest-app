@@ -23,7 +23,7 @@ public class SubmitResource {
             ArticleSubmitter.submitArticle(articleData);
             responseJO.put(Constants.message, "Your article has been successfully submitted");
         } catch (IOException e) {
-            responseJO.put(Constants.message, "There was an error submitting your article.  Please try again.");
+            responseJO.put(Constants.message, "There was an error submitting your article.  Please try again." + e.getMessage());
         }
         
         return responseJO.toString();
