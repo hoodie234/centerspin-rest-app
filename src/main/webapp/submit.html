@@ -50,7 +50,12 @@
             
             
             $("#submit").click(function() {
+                
                 console.log("Clicked submit button");
+                
+                articleData.type = "news";
+                articleData.topic = "congress";
+                
                 console.log(JSON.stringify(articleData));
                 
                 $.post("centerspin/submit/article", JSON.stringify(articleData), function(response) {
