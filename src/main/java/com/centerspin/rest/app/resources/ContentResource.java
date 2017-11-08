@@ -1,5 +1,6 @@
 package com.centerspin.rest.app.resources;
 import com.centerspin.app.ArticleCache;
+import com.centerspin.app.ArticleSearchSpec;
 import com.centerspin.utils.Constants;
 import java.util.*;
 import javax.ws.rs.*;
@@ -11,17 +12,19 @@ public class ContentResource {
     
     @GET
     @Path("articles")
-    public String getArticles(@QueryParam("type") @DefaultValue("") String articleType, 
-                              @QueryParam("topic") @DefaultValue("") String articleTopic, 
-                              @QueryParam("numArticles") @DefaultValue("1") int numArticles) {
+    public String getArticles(@QueryParam(Constants.type) @DefaultValue("") String articleType, 
+                              @QueryParam(Constants.topic) @DefaultValue("") String articleTopic,
+                              @QueryParam(Constants.sortBy) @DefaultValue(Constants.score) String sortBy,
+                              @QueryParam(Constants.numArticles) @DefaultValue("1") int numArticles) {
         
-        // Assemble parameter map
-        Map<String,String> queryParameters = new HashMap<>();
-        queryParameters.put(Constants.articleType, articleType);
-        queryParameters.put(Constants.articleTopic, articleTopic);
+        // Assemble search spec
+        ArticleSearchSpec searchSpec = new ArticleSearchSpec();
+        searchSpec.type = articleType;
+        searchSpec.topic = articleTopic;
+        searchSpec.sortBy = sortBy;
         
         // Get articles from smart cache
-        return cache.getArticles(queryParameters, numArticles).toString();
+        return cache.getArticles(searchSpec, numArticles).toString();
     }
     
 }

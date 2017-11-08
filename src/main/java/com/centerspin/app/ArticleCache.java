@@ -12,29 +12,27 @@ import org.json.JSONObject;
 public class ArticleCache {
     
     private List<JSONObject> allArticles;
-    private final Map<Map<String,String>, List<JSONObject>> queryCache = new ConcurrentHashMap<>();
+    
+    private final Map<ArticleSearchSpec, List<JSONObject>> queryCache = new ConcurrentHashMap<>();
     
     private final Timer articleUpdateTimer;
     private final int UPDATE_PERIOD = 1000 * 30; // 30 sec
     
     public ArticleCache() {
-        long start = System.currentTimeMillis();
         allArticles = loadAllArticles();
-        System.out.println(System.currentTimeMillis() - start + "ms");
         articleUpdateTimer = new Timer();
-        articleUpdateTimer.schedule(new ArticleUpdater(), UPDATE_PERIOD, UPDATE_PERIOD); //Start immediately
+        articleUpdateTimer.schedule(new ArticleUpdater(), UPDATE_PERIOD, UPDATE_PERIOD);
     }
     
     public List<JSONObject> getAllArticles() {
         return allArticles;
     }
     
-    
-    public List<JSONObject> getArticles(Map<String,String> queryParams, int numArticles) {
+    public List<JSONObject> getArticles(ArticleSearchSpec searchSpec, int numArticles) {
         
         // Check if query has already been processed and cached
-        if (queryCache.containsKey(queryParams)) {
-            return queryCache.get(queryParams).subList(0, numArticles);
+        if (queryCache.containsKey(searchSpec)) {
+            return queryCache.get(searchSpec).subList(0, numArticles);
         }
         
         // Copy list of all articles
@@ -42,26 +40,25 @@ public class ArticleCache {
         
         for (JSONObject article : allArticles) {
             
-            boolean isMatch = true;
+            if (article.getString("type").equals(searchSpec.type) == false && searchSpec.topic.equals(Constants.any) == false) continue;
+            if (article.getString("topic").equals(searchSpec.topic) == false && searchSpec.topic.equals(Constants.any) == false) continue;
             
-            for (Map.Entry<String, String> queryParam : queryParams.entrySet()) {
-                
-                if (queryParam.getValue().isEmpty()) continue;
-                
-                if (article.getString(queryParam.getKey()).equals(queryParam.getValue()) == false) {
-                    isMatch = false;
-                    break;
-                }
-                
-                if (isMatch) matchingArticles.add(article);
-            }
+            matchingArticles.add(article);
         }
         
-        // Custom comparator ranks articles by their score
-        Collections.sort(matchingArticles, ArticleComparators.SCORE);
-        
+        switch (searchSpec.sortBy) {
+            
+            case Constants.score:
+                Collections.sort(matchingArticles, ArticleComparators.SCORE);
+                break;
+                
+            case Constants.newest:
+                Collections.sort(matchingArticles, ArticleComparators.NEWEST_FIRST);
+                break;
+        }
+
         // Put full list of articles into cache
-        queryCache.put(queryParams, matchingArticles);
+        queryCache.put(searchSpec, matchingArticles);
         
         // Return sublist containing requested number of articles
         return matchingArticles.subList(0, numArticles);

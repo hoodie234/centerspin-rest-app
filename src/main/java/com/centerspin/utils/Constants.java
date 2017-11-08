@@ -1,5 +1,4 @@
 package com.centerspin.utils;
-import java.util.*;
 
 public class Constants {
 
@@ -8,9 +7,12 @@ public class Constants {
     public static final String API_BASE_URL = "https://2254w78i64.execute-api.us-west-2.amazonaws.com/dev";
     
     // Article Scan Params
-    public static final String articleType = "articleType";
-    public static final String articleTopic = "articleTopic";
+    public static final String any = "any";
+    public static final String sortBy = "sortBy";
+    public static final String type = "type";
+    public static final String topic = "topic";
     public static final String numArticles = "numArticles";
+    public static final String newest = "newest";
             
     // Used for security against /articles
     public static final String articleSubmitKey = "articleSubmitKey";
@@ -53,8 +55,6 @@ public class Constants {
     // Bias Meta Data
     public static final String avgRating = "avgRating";
     public static final String score = "score";
+   
     
-    // Article Sort Fields
-    public static final String scoreSort = "scoreSort";
-    public static final String newest = "newest";
 }
