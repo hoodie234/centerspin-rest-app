@@ -1,23 +1,20 @@
 package com.centerspin.rest.app.resources;
 
-import com.centerspin.utils.Constants;
-import com.centerspin.utils.OpenGraph;
 import java.io.*;
-import java.util.*;
 import javax.ws.rs.*;
+import javax.ws.rs.core.*;
 
 import org.json.*;
+
 import com.centerspin.utils.*;
 
-
 @Path("/scraper")
+@Produces(MediaType.APPLICATION_JSON)
 public class ScraperResource {
 
-    @GET
-    @Produces("text/plain")
-    public String test() {
-        return "HELLO";
-    }
+    /*
+        FINISHED AND TESTED 
+    */
     
     @POST
     public String scrapeURL(String requestBody) throws WebApplicationException {
