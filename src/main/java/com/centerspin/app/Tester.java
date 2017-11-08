@@ -10,26 +10,19 @@ import org.json.JSONObject;
 
 public class Tester {
 
-    private static String TEST_ARTICLE = "http://www.npr.org/sections/thetwo-way/2017/11/01/561337106/utah-nurse-arrested-for-doing-her-job-reaches-500-000-settlement";
+    private static String TEST_ARTICLE = "http://www.cnn.com/2017/11/07/us/texas-church-shooting/index.html";
     
     private static final ScraperResource scraperResource = new ScraperResource();
     private static final SubmitResource submitResource = new SubmitResource();
     
     public static void main(String[] args) throws IOException, InterruptedException {
         
-        List<String> testList = new LinkedList<>();
+        ArticleCache cache = new ArticleCache();
         
-        testList.add("0");
-        testList.add("1");
-        testList.add("2");
-        testList.add("3");
-        testList.add("4");
+        List<JSONObject> jo = cache.getAllArticles();
+                
+        printJsonList(jo);
         
-        List<String> sublist = testList.subList(0, 3);
-        
-        for (String string : sublist) {
-            System.out.println(string);
-        }
     }
     
     public static void testGetArticleAndUpdate() throws IOException {
@@ -63,6 +56,7 @@ public class Tester {
         JSONObject articleData = scraperResponse.getJSONObject(Constants.article);
         
         String submitResponse = submitResource.submitArticle(articleData.toString());
+        
         System.out.println(submitResponse);
     }
     
@@ -74,18 +68,24 @@ public class Tester {
         */
         JSONObject requestJO = new JSONObject();
         requestJO.put(Constants.userID, "1");
-        requestJO.put(Constants.articleID, "eFlSkso2");
+        requestJO.put(Constants.articleID, "EaqplQPi");
         
         JSONObject biasMetrics = new JSONObject();
-        biasMetrics.put(Constants.contentRating, 1);
-        biasMetrics.put(Constants.analysisRating, 1);
-        biasMetrics.put(Constants.contextRating, 1);
+        biasMetrics.put(Constants.contentRating, 4);
+        biasMetrics.put(Constants.analysisRating, 4);
+        biasMetrics.put(Constants.contextRating, 4);
         
         requestJO.put(Constants.biasMetrics, biasMetrics);
                 
         String response = submitResource.submitVote(requestJO.toString());
-        
+        System.out.println(response);
     }
  
+    private static void printJsonList(List<JSONObject> jsonList) {
+        
+        for (JSONObject jo : jsonList) {
+            System.out.println(jo.toString(4));
+        }
+    }
    
 }

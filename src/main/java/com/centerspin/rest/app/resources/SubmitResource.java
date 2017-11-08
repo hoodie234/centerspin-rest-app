@@ -5,14 +5,16 @@ import com.centerspin.utils.Constants;
 import com.centerspin.app.VoteSubmitter;
 import java.io.*;
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 
 import org.json.*;
 
 @Path("/submit")
+@Produces(MediaType.APPLICATION_JSON)
 public class SubmitResource {
     
     
-    @Path("/article")
+    @Path("article")
     @POST
     public String submitArticle(String requestBody) {
         
@@ -29,7 +31,7 @@ public class SubmitResource {
         return responseJO.toString();
     }
     
-    @Path("/vote")
+    @Path("vote")
     @POST
     public String submitVote(String requestBody) throws IOException {
         

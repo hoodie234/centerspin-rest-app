@@ -4,19 +4,31 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <title>Start Page</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <style>
+            
+            #submit {
+                display: none;
+            }
+            
+        </style>
     </head>
     <body>
         <p>Welcome to the submit page</p>
         
         <input id="url" type="text" placeholder="Article URL">
-        <button id="submit">Submit</button>
+        <button id="scrape">Submit URL</button>
         
         <div id="results"></div>
+        
+        <button id="submit">Submit Article</button>
+        
         <script>
             
             
+            var articleData;
             
-            $("#submit").click(function(){
+            $("#scrape").click(function(){
                 var urlString = $("#url").val();
             
                 console.log(location.href);
@@ -27,9 +39,25 @@
 
                 $.post("centerspin/scraper", JSON.stringify(articleRequest), function(response) {
                     $("#results").text(JSON.stringify(response));
+                    
+                    articleData = response.article;
+                    
+                    if (response.sourceState === "approved") {
+                        $("#submit").show();
+                    }
                 });
             });
             
+            
+            $("#submit").click(function() {
+                console.log("Clicked submit button");
+                console.log(JSON.stringify(articleData));
+                
+                $.post("centerspin/submit/article", JSON.stringify(articleData), function(response) {
+                    $("#results").text(response.message);
+                });
+                
+            });
             
         </script>
     </body>
