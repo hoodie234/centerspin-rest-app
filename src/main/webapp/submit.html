@@ -11,7 +11,7 @@
         <input id="url" type="text" placeholder="Article URL">
         <button id="submit">Submit</button>
         
-        
+        <div id="results"></div>
         <script>
             
             
@@ -19,14 +19,14 @@
             $("#submit").click(function(){
                 var urlString = $("#url").val();
             
-                console.log(urlString);
+                console.log(location.href);
 
                 var articleRequest = {
                     url : urlString
                 };
 
-                $.post("scraper", articleRequest, function(response) {
-                    console.log(response);
+                $.post("centerspin/scraper", JSON.stringify(articleRequest), function(response) {
+                    $("#results").text(JSON.stringify(response));
                 });
             });
             
