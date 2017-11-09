@@ -38,7 +38,7 @@
                 };
 
                 $.post("api/scraper", JSON.stringify(articleRequest), function(response) {
-                    $("#results").text(JSON.stringify(response));
+                    $("#results").text(JSON.stringify(response, null, "\t"));
                     
                     articleData = response.article;
                     
