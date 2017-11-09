@@ -37,7 +37,7 @@
                     url : urlString
                 };
 
-                $.post("centerspin/scraper", JSON.stringify(articleRequest), function(response) {
+                $.post("api/scraper", JSON.stringify(articleRequest), function(response) {
                     $("#results").text(JSON.stringify(response));
                     
                     articleData = response.article;
@@ -58,7 +58,7 @@
                 
                 console.log(JSON.stringify(articleData));
                 
-                $.post("centerspin/submit/article", JSON.stringify(articleData), function(response) {
+                $.post("api/submit/article", JSON.stringify(articleData), function(response) {
                     $("#results").text(response.message);
                 });
                 

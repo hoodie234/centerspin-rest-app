@@ -1,4 +1,6 @@
 package com.centerspin.rest.app.resources;
+
+
 import com.centerspin.app.ArticleCache;
 import com.centerspin.app.ArticleSearchSpec;
 import com.centerspin.utils.Constants;
@@ -12,10 +14,10 @@ public class ContentResource {
     
     @GET
     @Path("articles")
-    public String getArticles(@QueryParam(Constants.type) @DefaultValue("") String articleType, 
-                              @QueryParam(Constants.topic) @DefaultValue("") String articleTopic,
+    public String getArticles(@QueryParam(Constants.type) @DefaultValue("news") String articleType, 
+                              @QueryParam(Constants.topic) @DefaultValue("congress") String articleTopic,
                               @QueryParam(Constants.sortBy) @DefaultValue(Constants.score) String sortBy,
-                              @QueryParam(Constants.numArticles) @DefaultValue("1") int numArticles) {
+                              @QueryParam(Constants.numArticles) @DefaultValue("2") int numArticles) {
         
         // Assemble search spec
         ArticleSearchSpec searchSpec = new ArticleSearchSpec();

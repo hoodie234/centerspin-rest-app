@@ -1,12 +1,12 @@
 package com.centerspin.app;
-import com.centerspin.utils.Constants;
-import com.centerspin.rest.app.resources.ScraperResource;
-import com.centerspin.rest.app.resources.SubmitResource;
-import com.centerspin.utils.HttpRequest;
-import java.io.IOException;
+
+import java.io.*;
 import java.util.*;
-import org.json.JSONArray;
-import org.json.JSONObject;
+
+import org.json.*;
+
+import com.centerspin.utils.*;
+import com.centerspin.rest.app.resources.*;
 
 public class Tester {
 
@@ -17,15 +17,14 @@ public class Tester {
     
     public static void main(String[] args) throws IOException, InterruptedException {
         
-        ArticleCache cache = new ArticleCache();
-        
-        List<JSONObject> jo = cache.getAllArticles();
-                
-        printJsonList(jo);
+        ContentResource content = new ContentResource();
+        long start = System.currentTimeMillis();
+        String output = content.getArticles("news", "congress", Constants.newest, 5);
+        System.out.println(System.currentTimeMillis() - start);
         
     }
     
-    public static void testGetArticleAndUpdate() throws IOException {
+    private static void testGetArticleAndUpdate() throws IOException {
         
         JSONObject articleData = new HttpRequest(Constants.API_BASE_URL + "/articles/" + "eFlSkso2")
                                         .setReadTimeout(2000)
