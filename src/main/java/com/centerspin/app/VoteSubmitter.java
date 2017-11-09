@@ -29,6 +29,7 @@ public class VoteSubmitter extends Thread {
             // Get Article data for given vote
             try {
                 articleData = new HttpRequest(Constants.API_BASE_URL + "/articles/" + articleID)
+                        .setReadTimeout(2000)
                         .get()
                         .toJSONObject();
             } catch (IOException e) {
@@ -76,6 +77,7 @@ public class VoteSubmitter extends Thread {
             // Put vote in DB
             try {
                 new HttpRequest(Constants.API_BASE_URL + "/votes")
+                        .setReadTimeout(2000)
                         .requestBody(newVoteRequest.toString())
                         .post();
             } catch (IOException e) {
