@@ -1,13 +1,12 @@
 package com.centerspin.app;
-import com.centerspin.utils.Constants;
-import com.centerspin.utils.ArticleComparators;
-import com.centerspin.utils.HttpRequest;
-import java.io.IOException;
+
+import java.io.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.ws.rs.WebApplicationException;
-import org.json.JSONArray;
-import org.json.JSONObject;
+
+import org.json.*;
+
+import com.centerspin.utils.*;
 
 public class ArticleCache {
     
@@ -32,7 +31,7 @@ public class ArticleCache {
         
         // Check if query has already been processed and cached
         if (queryCache.containsKey(searchSpec)) {
-            return queryCache.get(searchSpec).subList(0, numArticles);
+            return getSublist(queryCache.get(searchSpec), numArticles);
         }
         
         // Copy list of all articles
@@ -59,9 +58,9 @@ public class ArticleCache {
 
         // Put full list of articles into cache
         queryCache.put(searchSpec, matchingArticles);
-        
+                
         // Return sublist containing requested number of articles
-        return matchingArticles.subList(0, numArticles);
+        return getSublist(matchingArticles, numArticles);
     }
 
     // TODO ---> This may be a good place to use AWS Java SDK because of how big the potential list is
@@ -81,13 +80,17 @@ public class ArticleCache {
             }
             
         } catch (IOException e) {
-            throw new WebApplicationException("Unable to update ArticleCache due to IO Exception: ", e);
+            // WHAT TO DO HERE???? THROW WEB APP EXCEPTION???
         }
         
         return articles;
         
     }
     
+    private List<JSONObject> getSublist(List<JSONObject> articles, int numArticles) {
+        if (numArticles > articles.size()) numArticles = articles.size();
+        return articles.subList(0, numArticles);
+    }
     
     private class ArticleUpdater extends TimerTask {
     
@@ -96,7 +99,10 @@ public class ArticleCache {
           
             allArticles = loadAllArticles();
             
-            // TODO ---> Recalculate all cached lists based off of new master list
+            for (ArticleSearchSpec searchSpec : queryCache.keySet()) {
+                List<JSONObject> matchingArticles = getArticles(searchSpec, allArticles.size());
+                queryCache.put(searchSpec, matchingArticles);
+            }
    
         }
     }
