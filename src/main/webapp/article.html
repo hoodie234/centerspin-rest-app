@@ -12,6 +12,11 @@
         <br>
         <div id="source"></div>
         
+        <input type="text" id="contentRating" value="3">
+        <input type="text" id="analysisRating" value="4">
+        <input type="text" id="contextRating" value="2">
+        
+        <button id="submitVote">Submit Vote</button>
         <script>
             
             
@@ -28,13 +33,32 @@
             };
             
             var queryParams = getQueryVars();
-            var articleID = queryParams.id;
+            var id = queryParams.id;
             
-            $.get("api/content/articles/" + articleID, function(response) {
+            $.get("api/content/articles/" + id, function(response) {
                 var articleData = response;
                $("#title").text(articleData.title);
                $("#description").text(articleData.description);
                $("#source").text(articleData.source);
+            });
+            
+            
+            $("#submitVote").click(function() {
+                
+                var biasMetricData = {
+                    contentRating : $("#contentRating").val(),
+                        analysisRating : $("#analysisRating").val(),
+                        contextRating : $("#contextRating").val()
+                };
+                var voteRequest = {
+                    
+                    articleID : id,
+                    biasMetrics : biasMetricData
+                };
+                
+                $.post("api/submit/vote", JSON.stringify(voteRequest), function(response) {
+                    console.log(response);
+                });
             });
             
             
