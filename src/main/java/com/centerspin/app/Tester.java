@@ -18,10 +18,9 @@ public class Tester {
     public static void main(String[] args) throws IOException, InterruptedException {
         
         ContentResource content = new ContentResource();
-        long start = System.currentTimeMillis();
-        String output = content.getArticles("news", "congress", Constants.newest, 5);
-        System.out.println(System.currentTimeMillis() - start);
         
+        String output = content.getArticles("any", "any", Constants.newest, 5);
+        System.out.println(output);
     }
     
     private static void testGetArticleAndUpdate() throws IOException {

@@ -12,6 +12,7 @@ public class ArticleCache {
     
     private List<JSONObject> allArticles;
     
+    private final Map<String, JSONObject> articleMap = new ConcurrentHashMap<>();
     private final Map<ArticleSearchSpec, List<JSONObject>> queryCache = new ConcurrentHashMap<>();
     
     private final Timer articleUpdateTimer;
@@ -27,6 +28,10 @@ public class ArticleCache {
         return allArticles;
     }
     
+    public JSONObject getArticle(String id) {
+        return articleMap.get(id);
+    }
+    
     public List<JSONObject> getArticles(ArticleSearchSpec searchSpec, int numArticles) {
         
         // Check if query has already been processed and cached
@@ -39,17 +44,27 @@ public class ArticleCache {
         
         for (JSONObject article : allArticles) {
             
-            if (article.getString("type").equals(searchSpec.type) == false && searchSpec.topic.equals(Constants.any) == false) continue;
-            if (article.getString("topic").equals(searchSpec.topic) == false && searchSpec.topic.equals(Constants.any) == false) continue;
+            if (searchSpec.type.equals(Constants.any) == false) {
+                if (article.getString(Constants.type).equals(searchSpec.type) == false) {
+                    continue;
+                }
+            }
+            
+            if (searchSpec.topic.equals(Constants.any) == false) {
+                if (article.getString(Constants.topic).equals(searchSpec.topic) == false) {
+                    continue;
+                }
+            }
+            
             
             matchingArticles.add(article);
         }
         
         switch (searchSpec.sortBy) {
             
-            case Constants.score:
-                Collections.sort(matchingArticles, ArticleComparators.SCORE);
-                break;
+//            case Constants.score:
+//                Collections.sort(matchingArticles, ArticleComparators.SCORE);
+//                break;
                 
             case Constants.newest:
                 Collections.sort(matchingArticles, ArticleComparators.NEWEST_FIRST);
@@ -76,7 +91,10 @@ public class ArticleCache {
 
             // Place all articles into List
             for (int i = 0; i < articlesArray.length(); i++) {
-                articles.add(articlesArray.getJSONObject(i));
+                
+                JSONObject article = articlesArray.getJSONObject(i);
+                articleMap.put(article.getString(Constants.id), article);
+                articles.add(article);
             }
             
         } catch (IOException e) {

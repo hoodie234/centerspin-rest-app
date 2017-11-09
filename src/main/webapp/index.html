@@ -3,8 +3,33 @@
     <head>
         <title>Start Page</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     </head>
     <body>
         <a href="submit.html">Submit Page</a>
+        
+        <br>
+        
+        <ul id="articles">
+            
+            
+        </ul>
+        
+        
+        <script>
+            
+            var articles = [];
+            
+            $.get("api/content/articles", function(response) {
+               articles = response;
+
+               for (var i = 0; i < articles.length; i++) {
+                   
+                   var article = articles[i];
+                   $("#articles").append("<li><a href=\"article.html?id=" + article.id + "\">" + article.title + "</a></li>");
+               }
+            });
+        </script>
+        
     </body>
 </html>
