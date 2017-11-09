@@ -10,26 +10,21 @@ import com.centerspin.utils.*;
 
 public class ArticleCache {
     
-    private List<JSONObject> allArticles;
-    
-    private final Map<String, JSONObject> articleMap = new ConcurrentHashMap<>();
+    private final Map<String, JSONObject> articleIdMap = new ConcurrentHashMap<>();
     private final Map<ArticleSearchSpec, List<JSONObject>> queryCache = new ConcurrentHashMap<>();
     
     private final Timer articleUpdateTimer;
     private final int UPDATE_PERIOD = 1000 * 30; // 30 sec
     
     public ArticleCache() {
-        allArticles = loadAllArticles();
+        loadAllArticles();
         articleUpdateTimer = new Timer();
         articleUpdateTimer.schedule(new ArticleUpdater(), UPDATE_PERIOD, UPDATE_PERIOD);
     }
     
-    public List<JSONObject> getAllArticles() {
-        return allArticles;
-    }
     
     public JSONObject getArticle(String id) {
-        return articleMap.get(id);
+        return articleIdMap.get(id);
     }
     
     public List<JSONObject> getArticles(ArticleSearchSpec searchSpec, int numArticles) {
@@ -42,7 +37,7 @@ public class ArticleCache {
         // Copy list of all articles
         List<JSONObject> matchingArticles = new LinkedList<>();
         
-        for (JSONObject article : allArticles) {
+        for (JSONObject article : articleIdMap.values()) {
             
             if (searchSpec.type.equals(Constants.any) == false) {
                 if (article.getString(Constants.type).equals(searchSpec.type) == false) {
@@ -78,11 +73,8 @@ public class ArticleCache {
         return getSublist(matchingArticles, numArticles);
     }
 
-    // TODO ---> This may be a good place to use AWS Java SDK because of how big the potential list is
-    private List<JSONObject> loadAllArticles() {
-        
-        List<JSONObject> articles = new LinkedList<>();
-        
+    private void loadAllArticles() {
+                
         try {
             JSONArray articlesArray = new HttpRequest(Constants.API_BASE_URL + "/articles")
                             .setReadTimeout(30 * 1000) // 30 second timeout is LOOOOOONG
@@ -93,16 +85,14 @@ public class ArticleCache {
             for (int i = 0; i < articlesArray.length(); i++) {
                 
                 JSONObject article = articlesArray.getJSONObject(i);
-                articleMap.put(article.getString(Constants.id), article);
-                articles.add(article);
+                articleIdMap.put(article.getString(Constants.id), article);
             }
             
         } catch (IOException e) {
             // WHAT TO DO HERE???? THROW WEB APP EXCEPTION???
         }
         
-        return articles;
-        
+   
     }
     
     private List<JSONObject> getSublist(List<JSONObject> articles, int numArticles) {
@@ -115,10 +105,10 @@ public class ArticleCache {
         @Override
         public void run() {
           
-            allArticles = loadAllArticles();
+            loadAllArticles();
             
             for (ArticleSearchSpec searchSpec : queryCache.keySet()) {
-                List<JSONObject> matchingArticles = getArticles(searchSpec, allArticles.size());
+                List<JSONObject> matchingArticles = getArticles(searchSpec, articleIdMap.size());
                 queryCache.put(searchSpec, matchingArticles);
             }
    
