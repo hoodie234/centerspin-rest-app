@@ -20,7 +20,18 @@
         <script>
             
             
-            
+           /* 
+            * Put key/val pairs contained in query string into a JSON object
+            * 
+            * ex ...?id=testID&foo=bar
+            * 
+            * becomes
+            * 
+            *   {
+                *   id : test,
+                *   foo : bar
+            *   }
+            */
             var getQueryVars = function() {
                 var vars = [], hash;
                 var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
@@ -32,30 +43,39 @@
                 return vars;
             };
             
+            // Load query params and get article ID
             var queryParams = getQueryVars();
             var id = queryParams.id;
             
-            $.get("api/content/articles/" + id, function(response) {
-                var articleData = response;
+            // Load article from .../content/{article-id}
+            $.get("api/content/articles/" + id, function(articleData) {
+                
+                // Display article elements
                $("#title").text(articleData.title);
                $("#description").text(articleData.description);
                $("#source").text(articleData.source);
+               
             });
             
             
+            // If "Submit Vote" button is clicked
             $("#submitVote").click(function() {
                 
-                var biasMetricData = {
-                    contentRating : $("#contentRating").val(),
-                        analysisRating : $("#analysisRating").val(),
-                        contextRating : $("#contextRating").val()
-                };
+                // Assemble vote request.  
                 var voteRequest = {
                     
                     articleID : id,
-                    biasMetrics : biasMetricData
+                    
+                    // Read values from vote input boxes
+                    // TODO --> Make this a snazzy form with labels and radio buttons w/ values 1-5 for each metric
+                    biasMetrics : {
+                        contentRating : $("#contentRating").val(),
+                        analysisRating : $("#analysisRating").val(),
+                        contextRating : $("#contextRating").val()
+                    }
                 };
                 
+                // Post vote request object to .../submit/votes
                 $.post("api/submit/vote", JSON.stringify(voteRequest), function(response) {
                     console.log(response);
                 });

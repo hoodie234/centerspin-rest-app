@@ -18,13 +18,15 @@
         
         <script>
             
-            var articles = [];
+            var articles;
             
+            // Load ALL articles from /content.
             $.get("api/content/articles", function(response) {
                articles = response;
 
                for (var i = 0; i < articles.length; i++) {
                    
+                   // Display each article title as <li> item which links to article.html?id={article.id}
                    var article = articles[i];
                    $("#articles").append("<li><a href=\"article.html?id=" + article.id + "\">" + article.title + "</a></li>");
                }
