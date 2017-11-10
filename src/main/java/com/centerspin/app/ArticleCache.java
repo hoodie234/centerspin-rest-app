@@ -57,9 +57,9 @@ public class ArticleCache {
         
         switch (searchSpec.sortBy) {
             
-//            case Constants.score:
-//                Collections.sort(matchingArticles, ArticleComparators.SCORE);
-//                break;
+            case Constants.avgRating:
+                Collections.sort(matchingArticles, ArticleComparators.AVG_RATING);
+                break;
                 
             case Constants.newest:
                 Collections.sort(matchingArticles, ArticleComparators.NEWEST_FIRST);
@@ -77,7 +77,7 @@ public class ArticleCache {
                 
         try {
             JSONArray articlesArray = new HttpRequest(Constants.API_BASE_URL + "/articles")
-                            .setReadTimeout(30 * 1000) // 30 second timeout is LOOOOOONG
+//                            .setReadTimeout(30 * 1000) // 30 second timeout is LOOOOOONG
                             .get()
                             .toJSONArray();
 

@@ -26,7 +26,7 @@ public class Tester {
     private static void testGetArticleAndUpdate() throws IOException {
         
         JSONObject articleData = new HttpRequest(Constants.API_BASE_URL + "/articles/" + "eFlSkso2")
-                                        .setReadTimeout(2000)
+//                                        .setReadTimeout(2000)
                                         .get()
                                         .toJSONObject();
         
@@ -41,7 +41,7 @@ public class Tester {
                 System.out.println(articleUpdateRequest.toString(4));
         new HttpRequest(Constants.API_BASE_URL + "/articles")
                 .requestBody(articleUpdateRequest.toString())
-                .setReadTimeout(2000)
+//                .setReadTimeout(2000)
                 .put();
     }
     

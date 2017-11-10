@@ -118,9 +118,7 @@ public class HttpRequest {
         try {
             
             conn = (HttpURLConnection)url.openConnection();
-            
-            conn.setConnectTimeout(connectionTimeout);
-            conn.setReadTimeout(readTimeout);
+           
             conn.setRequestMethod(method.toString());
             conn.setUseCaches(false);
             conn.setInstanceFollowRedirects(false);

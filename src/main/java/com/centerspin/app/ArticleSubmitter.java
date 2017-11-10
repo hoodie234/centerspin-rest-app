@@ -34,7 +34,7 @@ public class ArticleSubmitter {
         // TODO --> Look at status code here?
         // TODO --> Return something from method??
         new HttpRequest(Constants.API_BASE_URL + "/articles")
-                .setReadTimeout(1000)
+//                .setReadTimeout(1000)
                 .requestBody(newArticleRequest.toString())
                 .post();         
 
