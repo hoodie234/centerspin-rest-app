@@ -21,10 +21,10 @@ public class ArticleSubmitter {
         biasMetrics.put(Constants.contentRating, -1);
         biasMetrics.put(Constants.analysisRating, -1);
         biasMetrics.put(Constants.contextRating, -1);
-        biasMetrics.put(Constants.avgRating, -1);
-        biasMetrics.put(Constants.score, -1);
         
+        // Put in bias metrics and avg score
         articleData.put(Constants.biasMetrics, biasMetrics);
+        articleData.put(Constants.avgRating, -1);
         
         JSONObject newArticleRequest = new JSONObject();
         newArticleRequest.put(Constants.article, articleData);

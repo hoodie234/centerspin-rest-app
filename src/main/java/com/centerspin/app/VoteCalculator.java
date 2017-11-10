@@ -1,6 +1,5 @@
 package com.centerspin.app;
 import com.centerspin.utils.Constants;
-import java.util.*;
 import org.json.*;
 
 public class VoteCalculator {
@@ -31,10 +30,8 @@ public class VoteCalculator {
         }
 
         float avgMetric = sumOfMetrics/(float)Constants.BIAS_METRIC_KEYS.length;
-        float score = (avgMetric/Constants.MAX_METRIC_VAL) * 100;
 
-        articleData.getJSONObject(Constants.biasMetrics).put(Constants.avgRating, avgMetric);
-        articleData.getJSONObject(Constants.biasMetrics).put(Constants.score, score);
+        articleData.put(Constants.avgRating, avgMetric);
     }
     
 }
