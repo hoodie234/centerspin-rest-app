@@ -7,7 +7,7 @@
         
         <style>
             
-            #submit {
+            #submit, #pending {
                 display: none;
             }
             
@@ -22,6 +22,7 @@
         <div id="results"></div>
         
         <button id="submit">Submit Article</button>
+        <button id="pending">Submit Source to Pending</button>
         
         <script>
             
@@ -31,8 +32,6 @@
             $("#scrape").click(function(){
                 var urlString = $("#url").val();
             
-                console.log(location.href);
-
                 var articleRequest = {
                     url : urlString
                 };
@@ -44,6 +43,10 @@
                     
                     if (response.sourceState === "approved") {
                         $("#submit").show();
+                    }
+                    
+                    if (response.sourceState === "newSource") {
+                        $("#pending").show();
                     }
                 });
             });
@@ -59,6 +62,21 @@
                 console.log(JSON.stringify(articleData));
                 
                 $.post("api/submit/article", JSON.stringify(articleData), function(response) {
+                    $("#results").text(response.message);
+                });
+                
+            });
+            
+            $("#pending").click(function() {
+                
+                console.log("Clicked submit button");
+                
+                articleData.type = "news";
+                articleData.topic = "congress";
+                
+                console.log(JSON.stringify(articleData));
+                
+                $.post("api/pending", JSON.stringify(articleData), function(response) {
                     $("#results").text(response.message);
                 });
                 

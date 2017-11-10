@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Start Page</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    </head>
+    <body>
+        
+        <input id="articleID" type="text" placeholder="Article ID">
+        <button id="approve">Aprove Article</button>
+        
+        
+        <br>
+        
+        <ul id="articles">
+            
+            
+        </ul>
+        
+        
+        <script>
+            
+            var articles;
+            
+            var populateArticleList = function(articles) {
+                for (var i = 0; i < articles.length; i++) {
+                   
+                   // Display each article title as <li> item which links to article.html?id={article.id}
+                   var article = articles[i];
+                   $("#articles").append("<li>" + article.id + " ~ <a href=\"" + article.url + "\">" + article.title + "</a></li>");
+               }
+            };
+            
+            // Load ALL articles from /content.
+            $.get("api/pending", function(response) {
+               populateArticleList(response);
+            });
+            
+            $("#approve").click(function() {
+                 var articleID = $("#articleID").val();
+                 $.post("api/pending/approve/" + articleID, function(response) {
+                     console.log(response);
+                     location.reload();
+                 });
+            });
+        </script>
+        
+    </body>
+</html>
+
