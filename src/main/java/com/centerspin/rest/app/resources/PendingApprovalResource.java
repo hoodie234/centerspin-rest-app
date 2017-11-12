@@ -1,6 +1,8 @@
 package com.centerspin.rest.app.resources;
 import com.centerspin.utils.Constants;
 import com.centerspin.utils.GUI;
+import com.centerspin.utils.HttpRequest;
+import java.io.IOException;
 import java.util.*;
 import javax.inject.Singleton;
 import javax.ws.rs.*;
@@ -51,7 +53,7 @@ public class PendingApprovalResource {
         
         // Get article w/ given ID
         JSONObject approvedArticle = pendingArticles.remove(articleID);
-        
+        String approvedSource = approvedArticle.getString(Constants.source);
         // Submit article
         submitter.submitArticle(approvedArticle.toString());
         
@@ -59,7 +61,7 @@ public class PendingApprovalResource {
         List<JSONObject> articlesFromSameSource = new LinkedList<>();
         
         for (JSONObject article : pendingArticles.values()) {
-            if (article.getString(Constants.source).equals(approvedArticle.getString(Constants.source))) {
+            if (article.getString(Constants.source).equals(approvedSource)) {
                 System.out.println(">>>>>>> Adding article with " + article.getString(Constants.id) + " to match list");
                 articlesFromSameSource.add(article);
             }
@@ -71,7 +73,18 @@ public class PendingApprovalResource {
             pendingArticles.remove(article.getString(Constants.id));
         }
         
-        // Add source to "approved" in Dynamo
+        // Update Sources DB table
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("sourceState", "approved");
+        requestBody.put("sourceName", approvedSource);
+       
+        try {
+            new HttpRequest(Constants.API_BASE_URL + "/sources/add")
+                .requestBody(requestBody.toString())
+                .post();
+        } catch (IOException e) {
+            throw new WebApplicationException("Error submitting approval of source: " + approvedSource, e);
+        }
         
         JSONObject responseJO = new JSONObject();
         responseJO.put("message", "Articles with source " + approvedArticle.getString(Constants.source) + " have been approved and submitted");
@@ -84,12 +97,13 @@ public class PendingApprovalResource {
     public String denyArticleSource(@PathParam("article-id") String articleID) {
         
         JSONObject deniedArticle = pendingArticles.remove(articleID);
+        String deniedSource = deniedArticle.getString(Constants.source);
         
         // Find all other articles w/ matching source
         List<JSONObject> articlesFromSameSource = new LinkedList<>();
         
         for (JSONObject article : pendingArticles.values()) {
-            if (article.getString(Constants.source).equals(deniedArticle.getString(Constants.source))) {
+            if (article.getString(Constants.source).equals(deniedSource)) {
                 articlesFromSameSource.add(article);
             }
         }
@@ -99,7 +113,18 @@ public class PendingApprovalResource {
             pendingArticles.remove(article.getString(Constants.id));
         }
         
-        // Add source to "blacklisted" in Dynamo
+        // Update Sources DB table
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("sourceState", "blacklisted");
+        requestBody.put("sourceName", deniedSource);
+       
+        try {
+            new HttpRequest(Constants.API_BASE_URL + "/sources/add")
+                .requestBody(requestBody.toString())
+                .post();
+        } catch (IOException e) {
+            throw new WebApplicationException("Error submitting approval of source: " + deniedSource, e);
+        }
         
         JSONObject responseJO = new JSONObject();
         responseJO.put("message", "Source " + deniedArticle.getString(Constants.source) + " has been blacklisted");
