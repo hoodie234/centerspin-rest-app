@@ -53,7 +53,10 @@ public class PendingApprovalResource {
         
         // Get article w/ given ID
         JSONObject approvedArticle = pendingArticles.remove(articleID);
+        
+        // Get that article's source
         String approvedSource = approvedArticle.getString(Constants.source);
+        
         // Submit article
         submitter.submitArticle(approvedArticle.toString());
         
@@ -62,7 +65,6 @@ public class PendingApprovalResource {
         
         for (JSONObject article : pendingArticles.values()) {
             if (article.getString(Constants.source).equals(approvedSource)) {
-                System.out.println(">>>>>>> Adding article with " + article.getString(Constants.id) + " to match list");
                 articlesFromSameSource.add(article);
             }
         }
@@ -86,6 +88,8 @@ public class PendingApprovalResource {
             throw new WebApplicationException("Error submitting approval of source: " + approvedSource, e);
         }
         
+        
+        // Send response
         JSONObject responseJO = new JSONObject();
         responseJO.put("message", "Articles with source " + approvedArticle.getString(Constants.source) + " have been approved and submitted");
         
@@ -96,7 +100,10 @@ public class PendingApprovalResource {
     @Path("deny/{article-id}")
     public String denyArticleSource(@PathParam("article-id") String articleID) {
         
+        // Get article w/ given ID
         JSONObject deniedArticle = pendingArticles.remove(articleID);
+        
+        // Get that article's resource
         String deniedSource = deniedArticle.getString(Constants.source);
         
         // Find all other articles w/ matching source
@@ -108,7 +115,7 @@ public class PendingApprovalResource {
             }
         }
         
-        // Submit these matching articles and remove them from pending list
+        // Remove matching articles from pending list
         for (JSONObject article : articlesFromSameSource) {
             pendingArticles.remove(article.getString(Constants.id));
         }
@@ -126,6 +133,7 @@ public class PendingApprovalResource {
             throw new WebApplicationException("Error submitting approval of source: " + deniedSource, e);
         }
         
+        // Send response
         JSONObject responseJO = new JSONObject();
         responseJO.put("message", "Source " + deniedArticle.getString(Constants.source) + " has been blacklisted");
         
