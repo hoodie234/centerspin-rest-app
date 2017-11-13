@@ -22,6 +22,9 @@ public class ArticleCache {
         articleUpdateTimer.schedule(new ArticleUpdater(), UPDATE_PERIOD, UPDATE_PERIOD);
     }
     
+    public List<JSONObject> getAllArticles() {
+        return new LinkedList(articleIdMap.values());
+    }
     
     public JSONObject getArticle(String id) {
         return articleIdMap.get(id);
@@ -38,7 +41,7 @@ public class ArticleCache {
         List<JSONObject> matchingArticles = new LinkedList<>();
         
         for (JSONObject article : articleIdMap.values()) {
-            
+                        
             if (searchSpec.type.equals(Constants.any) == false) {
                 if (article.getString(Constants.type).equals(searchSpec.type) == false) {
                     continue;
@@ -50,7 +53,6 @@ public class ArticleCache {
                     continue;
                 }
             }
-            
             
             matchingArticles.add(article);
         }
@@ -77,7 +79,6 @@ public class ArticleCache {
                 
         try {
             JSONArray articlesArray = new HttpRequest(Constants.API_BASE_URL + "/articles")
-//                            .setReadTimeout(30 * 1000) // 30 second timeout is LOOOOOONG
                             .get()
                             .toJSONArray();
 

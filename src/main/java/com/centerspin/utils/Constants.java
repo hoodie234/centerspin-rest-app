@@ -3,6 +3,9 @@ package com.centerspin.utils;
 public class Constants {
 
     public static final String message = "message";
+    public static final String comment = "comment";
+    public static final String text = "text";
+    public static final String voteID = "voteID";
     
     public static final String API_BASE_URL = "https://2254w78i64.execute-api.us-west-2.amazonaws.com/dev";
     

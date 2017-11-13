@@ -31,12 +31,23 @@ public class ArticleSubmitter {
         newArticleRequest.put(Constants.articleSubmitKey, Constants.SECRET_KEY);
                 
    
-        // TODO --> Look at status code here?
-        // TODO --> Return something from method??
-        new HttpRequest(Constants.API_BASE_URL + "/articles")
-//                .setReadTimeout(1000)
-                .requestBody(newArticleRequest.toString())
-                .post();         
+        // Submit article
+        new HttpRequest(Constants.API_BASE_URL + "/articles").requestBody(newArticleRequest.toString()).post();   
+       
+              
+        // Submit comment if present
+        String comment = articleData.getString(Constants.comment);
+        if (comment != null && !comment.isEmpty()) {
 
+            CommentSubmitter commentSubmitter = new CommentSubmitter()
+                    .id(GUI.getNewGUI())
+                    .articleID(articleData.getString(Constants.id))
+                    .userID("user1234")
+                    .timestamp(articleData.getString(Constants.timestamp))
+                    .text(comment);
+
+            commentSubmitter.submit();
+
+        }
     }
 }

@@ -19,8 +19,8 @@ public class Tester {
         
         ContentResource content = new ContentResource();
         
-        String output = content.getArticles("any", "any", Constants.newest, 5);
-        System.out.println(output);
+        System.out.println(content.getArticles(Constants.any, Constants.any, Constants.newest, 5));
+        
     }
     
     private static void testGetArticleAndUpdate() throws IOException {
