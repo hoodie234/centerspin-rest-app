@@ -6,6 +6,7 @@ import com.centerspin.utils.HttpResponse;
 import java.io.IOException;
 import java.util.*;
 import javax.ws.rs.WebApplicationException;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ArticleSubmitter {
@@ -36,7 +37,14 @@ public class ArticleSubmitter {
        
               
         // Submit comment if present
-        String comment = articleData.getString(Constants.comment);
+        String comment;
+        try {
+            comment = articleData.getString(Constants.comment);
+        } catch (JSONException e) {
+            // No comment present
+            return;
+        }
+         
         if (comment != null && !comment.isEmpty()) {
 
             CommentSubmitter commentSubmitter = new CommentSubmitter()

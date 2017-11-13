@@ -91,8 +91,15 @@ public class VoteSubmitter extends Thread {
             }
             
             
-            // Submit Attached Comment
-            String comment = newVoteRequest.getString(Constants.comment);
+            // Submit comment if present
+            String comment;
+            try {
+                comment = articleData.getString(Constants.comment);
+            } catch (JSONException e) {
+                // No comment present
+                return;
+            }
+         
             if (comment != null && !comment.isEmpty()) {
                 
                 CommentSubmitter commentSubmitter = new CommentSubmitter()
