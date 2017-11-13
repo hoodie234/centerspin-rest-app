@@ -22,7 +22,7 @@
             var articles;
             
             // Load ALL articles from /content.
-            $.get("api/content/articles", function(response) {
+            $.get("v1/content/articles", function(response) {
                articles = response;
 
                for (var i = 0; i < articles.length; i++) {

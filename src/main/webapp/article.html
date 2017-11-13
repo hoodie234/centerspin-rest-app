@@ -48,7 +48,7 @@
             var id = queryParams.id;
             
             // Load article from .../content/{article-id}
-            $.get("api/content/articles/" + id, function(articleData) {
+            $.get("v1/content/articles/" + id, function(articleData) {
                 
                 // Display article elements
                $("#title").text(articleData.title);
@@ -76,7 +76,7 @@
                 };
                 
                 // Post vote request object to .../submit/votes
-                $.post("api/submit/vote", JSON.stringify(voteRequest), function(response) {
+                $.post("v1/submit/vote", JSON.stringify(voteRequest), function(response) {
                     console.log(response);
                 });
             });

@@ -36,7 +36,7 @@
                     url : urlString
                 };
 
-                $.post("api/scraper", JSON.stringify(articleRequest), function(response) {
+                $.post("v1/scraper", JSON.stringify(articleRequest), function(response) {
                     $("#results").text(JSON.stringify(response, null, "\t"));
                     
                     articleData = response.article;
@@ -61,7 +61,7 @@
                 
                 console.log(JSON.stringify(articleData));
                 
-                $.post("api/submit/article", JSON.stringify(articleData), function(response) {
+                $.post("v1/submit/article", JSON.stringify(articleData), function(response) {
                     $("#results").text(response.message);
                 });
                 
@@ -76,7 +76,7 @@
                 
                 console.log(JSON.stringify(articleData));
                 
-                $.post("api/pending", JSON.stringify(articleData), function(response) {
+                $.post("v1/pending", JSON.stringify(articleData), function(response) {
                     $("#results").text(response.message);
                 });
                 

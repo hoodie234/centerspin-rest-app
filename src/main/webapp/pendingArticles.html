@@ -33,13 +33,13 @@
             };
             
             // Load ALL articles from /content.
-            $.get("api/pending", function(response) {
+            $.get("v1/pending", function(response) {
                populateArticleList(response);
             });
             
             $("#approve").click(function() {
                  var articleID = $("#articleID").val();
-                 $.post("api/pending/approve/" + articleID, function(response) {
+                 $.post("v1/pending/approve/" + articleID, function(response) {
                      console.log(response);
                      location.reload();
                  });
