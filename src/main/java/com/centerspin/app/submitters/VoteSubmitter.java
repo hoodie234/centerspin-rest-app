@@ -1,5 +1,6 @@
-package com.centerspin.app;
+package com.centerspin.app.submitters;
 
+import com.centerspin.app.VoteCalculator;
 import java.io.*;
 import org.json.*;
 import javax.ws.rs.*;
@@ -59,7 +60,7 @@ public class VoteSubmitter extends Thread {
             // Put Article data snapshot into new Vote
             newVoteRequest.put(Constants.articleMetrics, articleMetricsSnapshot);
             
-            newVoteRequest.put(Constants.id, GUI.getNewGUI());
+            newVoteRequest.put(Constants.id, GUID.generate());
             newVoteRequest.put(Constants.timestamp, System.currentTimeMillis());
                         
             // Put vote in DB
@@ -95,7 +96,7 @@ public class VoteSubmitter extends Thread {
             if (comment != null && !comment.isEmpty()) {
                 
                 CommentSubmitter commentSubmitter = new CommentSubmitter()
-                        .id(GUI.getNewGUI())
+                        .id(GUID.generate())
                         .voteID(newVoteRequest.getString(Constants.id))
                         .articleID(articleID)
                         .userID("user1234")

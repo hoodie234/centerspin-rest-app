@@ -1,4 +1,4 @@
-package com.centerspin.app;
+package com.centerspin.app.submitters;
 
 import java.io.*;
 import org.json.*;

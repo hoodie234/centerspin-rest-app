@@ -1,8 +1,8 @@
 package com.centerspin.rest.app.resources;
 
-import com.centerspin.app.ArticleSubmitter;
+import com.centerspin.app.submitters.ArticleSubmitter;
 import com.centerspin.utils.Constants;
-import com.centerspin.app.VoteSubmitter;
+import com.centerspin.app.submitters.VoteSubmitter;
 import java.io.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

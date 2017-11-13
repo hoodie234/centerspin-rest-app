@@ -1,6 +1,6 @@
 package com.centerspin.rest.app.resources;
 import com.centerspin.utils.Constants;
-import com.centerspin.utils.GUI;
+import com.centerspin.utils.GUID;
 import com.centerspin.utils.HttpRequest;
 import java.io.IOException;
 import java.util.*;
@@ -33,7 +33,7 @@ public class PendingApprovalResource {
     public String addPendingArticle(String requestBody) {
         
         JSONObject articleData = new JSONObject(requestBody);
-        String id = GUI.getNewGUI();
+        String id = GUID.generate();
         
         articleData.put(Constants.id, id);
         pendingArticles.put(id, articleData);

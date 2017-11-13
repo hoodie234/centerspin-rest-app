@@ -1,12 +1,12 @@
 package com.centerspin.utils;
 
 
-public class GUI {
+public class GUID {
 
     
     private static final String POSSIBLE_CHARS = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     
-    public static String getNewGUI() {
+    public static String generate() {
         
         String gui = "";
         

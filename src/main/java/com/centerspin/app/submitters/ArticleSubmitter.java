@@ -1,6 +1,6 @@
-package com.centerspin.app;
+package com.centerspin.app.submitters;
 import com.centerspin.utils.Constants;
-import com.centerspin.utils.GUI;
+import com.centerspin.utils.GUID;
 import com.centerspin.utils.HttpRequest;
 import com.centerspin.utils.HttpResponse;
 import java.io.IOException;
@@ -12,8 +12,8 @@ public class ArticleSubmitter {
 
     public static void submitArticle(JSONObject articleData) throws IOException {
         
-        // Add new GUI * timestamp
-        articleData.put(Constants.id, GUI.getNewGUI());
+        // Add new GUID * timestamp
+        articleData.put(Constants.id, GUID.generate());
         articleData.put(Constants.timestamp, System.currentTimeMillis());
         
         // Add empty set of bias metrics to articleData
@@ -40,7 +40,7 @@ public class ArticleSubmitter {
         if (comment != null && !comment.isEmpty()) {
 
             CommentSubmitter commentSubmitter = new CommentSubmitter()
-                    .id(GUI.getNewGUI())
+                    .id(GUID.generate())
                     .articleID(articleData.getString(Constants.id))
                     .userID("user1234")
                     .timestamp(articleData.getString(Constants.timestamp))
