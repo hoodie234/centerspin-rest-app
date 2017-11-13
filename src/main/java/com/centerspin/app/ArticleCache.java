@@ -7,6 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.json.*;
 
 import com.centerspin.utils.*;
+import javax.ws.rs.WebApplicationException;
 
 public class ArticleCache {
     
@@ -37,7 +38,7 @@ public class ArticleCache {
             return getSublist(queryCache.get(searchSpec), numArticles);
         }
         
-        // Copy list of all articles
+        // Copy list of matching articles
         List<JSONObject> matchingArticles = new LinkedList<>();
         
         for (JSONObject article : articleIdMap.values()) {
@@ -66,6 +67,8 @@ public class ArticleCache {
             case Constants.newest:
                 Collections.sort(matchingArticles, ArticleComparators.NEWEST_FIRST);
                 break;
+                
+            // Add more later
         }
 
         // Put full list of articles into cache
@@ -90,7 +93,7 @@ public class ArticleCache {
             }
             
         } catch (IOException e) {
-            // WHAT TO DO HERE???? THROW WEB APP EXCEPTION???
+            throw new WebApplicationException("Error loading all articles from DB", e);
         }
         
    
