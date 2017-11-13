@@ -58,10 +58,10 @@ public class CommentSubmitter {
             commentRequest.put(Constants.voteID, voteID);
         }
         
-        try {
-            new HttpRequest(Constants.API_BASE_URL + "/comments").requestBody(commentRequest.toString()).post();
-        } catch (IOException e) {
-            throw new WebApplicationException("Error submitting comment to database.", e);
-        }
+//        try {
+//            new HttpRequest(Constants.API_BASE_URL + "/comments").requestBody(commentRequest.toString()).post();
+//        } catch (IOException e) {
+//            throw new WebApplicationException("Error submitting comment to database.", e);
+//        }
     }
 }
