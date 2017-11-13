@@ -15,12 +15,12 @@ public class ArticleCache {
     private final Map<ArticleSearchSpec, List<JSONObject>> queryCache = new ConcurrentHashMap<>();
     
     private final Timer articleUpdateTimer;
-    private final int UPDATE_PERIOD = 1000 * 30; // 30 sec
+    private final int THIRTY_SECONDS = 1000 * 30; // 30 sec
     
     public ArticleCache() {
         loadAllArticles();
         articleUpdateTimer = new Timer();
-        articleUpdateTimer.schedule(new ArticleUpdater(), UPDATE_PERIOD, UPDATE_PERIOD);
+        articleUpdateTimer.schedule(new ArticleUpdater(), THIRTY_SECONDS, THIRTY_SECONDS);
     }
     
     public List<JSONObject> getAllArticles() {
