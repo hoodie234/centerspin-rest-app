@@ -59,14 +59,36 @@ public class VoteSubmitter extends Thread {
                         
             // Put Article data snapshot into new Vote
             newVoteRequest.put(Constants.articleMetrics, articleMetricsSnapshot);
-            
             newVoteRequest.put(Constants.id, GUID.generate());
             newVoteRequest.put(Constants.timestamp, System.currentTimeMillis());
+            
+            // Pull comment & submit it
+            try {
+                String commentText = (String)newVoteRequest.remove(Constants.comment);
+                
+                // Submit the comment
+                if (!commentText.isEmpty()) {
+
+                    CommentSubmitter commentSubmitter = new CommentSubmitter()
+                            .id(GUID.generate())
+                            .voteID(newVoteRequest.getString(Constants.id))
+                            .articleID(articleID)
+                            .userID("user1234")
+                            .timestamp(newVoteRequest.getString(Constants.timestamp))
+                            .text(commentText);
+
+                    commentSubmitter.submit();
+
+                }
+            } catch (JSONException e) {
+                // ignored
+            }
+            
+            
                         
             // Put vote in DB
             try {
                 new HttpRequest(Constants.API_BASE_URL + "/votes")
-//                        .setReadTimeout(2000)
                         .requestBody(newVoteRequest.toString())
                         .post();
             } catch (IOException e) {
@@ -90,29 +112,8 @@ public class VoteSubmitter extends Thread {
                 throw new WebApplicationException("Error updating article via API gateway", e);
             }
             
+     
             
-            // Submit comment if present
-            String comment;
-            try {
-                comment = articleData.getString(Constants.comment);
-            } catch (JSONException e) {
-                // No comment present
-                return;
-            }
-         
-            if (comment != null && !comment.isEmpty()) {
-                
-                CommentSubmitter commentSubmitter = new CommentSubmitter()
-                        .id(GUID.generate())
-                        .voteID(newVoteRequest.getString(Constants.id))
-                        .articleID(articleID)
-                        .userID("user1234")
-                        .timestamp(newVoteRequest.getString(Constants.timestamp))
-                        .text(comment);
-                
-                commentSubmitter.submit();
-                
-            }
      
         }
     }
