@@ -19,7 +19,7 @@ public class VoteSubmitter extends Thread {
         public void run() throws WebApplicationException {
             
             // Pull user & article id from request
-            String userID = newVoteRequest.getString(Constants.userID);
+//            String userID = newVoteRequest.getString(Constants.userID);
             String articleID = newVoteRequest.getString(Constants.articleID);
                         
             JSONObject articleData;
@@ -36,7 +36,6 @@ public class VoteSubmitter extends Thread {
             try {
                 articleVotes = new HttpRequest(Constants.API_BASE_URL + "/votes/article/" + articleID).get().toJSONArray();
             } catch (IOException e) {
-                System.out.println("/votes/article error : " + e.getMessage());
                 throw new WebApplicationException("Error getting all previous votes for article", e);
             }
             
@@ -62,12 +61,11 @@ public class VoteSubmitter extends Thread {
             
             // Put ID & timestamp into new Vote
             newVoteRequest.put(Constants.id, GUID.generate());
-            newVoteRequest.put(Constants.timestamp, System.currentTimeMillis());
+            newVoteRequest.put(Constants.timestamp, String.valueOf(System.currentTimeMillis()));
             
             // Pull comment & submit it
             try {
                 String commentText = (String) newVoteRequest.remove(Constants.comment);
-                
                 // Submit the comment
                 if (!commentText.isEmpty()) {
 
@@ -83,6 +81,7 @@ public class VoteSubmitter extends Thread {
 
                 }
             } catch (JSONException e) {
+                System.out.println(e.getMessage());
                 // ignored
             }
             

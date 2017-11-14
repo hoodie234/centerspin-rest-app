@@ -1,5 +1,6 @@
 package com.centerspin.app;
 
+import com.centerspin.app.submitters.CommentSubmitter;
 import java.io.*;
 import java.util.*;
 
@@ -18,8 +19,7 @@ public class Tester {
     public static void main(String[] args) throws IOException, InterruptedException {
         
         ContentResource content = new ContentResource();
-        
-        System.out.println(content.getArticles(Constants.any, Constants.any, Constants.newest, 5));
+        System.out.println(content.getCommentsForArticle("articleID"));
         
     }
     

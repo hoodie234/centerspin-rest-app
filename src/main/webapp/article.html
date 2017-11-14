@@ -17,6 +17,13 @@
         <input type="text" id="contextRating" value="2">
         
         <button id="submitVote">Submit Vote</button>
+        
+        
+        <ul id="comments">
+            
+            
+        </ul>
+        
         <script>
             
             
@@ -47,7 +54,7 @@
             var queryParams = getQueryVars();
             var id = queryParams.id;
             
-            // Load article from .../content/{article-id}
+//            // Load article from .../content/{article-id}
             $.get("v1/content/articles/" + id, function(articleData) {
                 
                 // Display article elements
@@ -55,6 +62,18 @@
                $("#description").text(articleData.description);
                $("#source").text(articleData.source);
                
+            });
+            
+            // Load comments for article
+            $.get("v1/content/comments/" + id, function(comments) {
+                
+                console.log(comments);
+                
+                for (var i = 0; i < comments.length; i++) {
+                   // Display each article title as <li> item which links to article.html?id={article.id}
+                   var comment = comments[i];
+                   $("#comments").append("<li>" + comment.text + "</li>");
+               }
             });
             
             
@@ -65,6 +84,7 @@
                 var voteRequest = {
                     
                     articleID : id,
+                    comment: "this is a test comment " + Math.random(),
                     
                     // Read values from vote input boxes
                     // TODO --> Make this a snazzy form with labels and radio buttons w/ values 1-5 for each metric
