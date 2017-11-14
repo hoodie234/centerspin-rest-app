@@ -21,6 +21,33 @@ public class VoteSubmitter extends Thread {
             // Pull user & article id from request
 //            String userID = newVoteRequest.getString(Constants.userID);
             String articleID = newVoteRequest.getString(Constants.articleID);
+            
+            // Put ID & timestamp into new Vote
+            newVoteRequest.put(Constants.id, GUID.generate());
+            newVoteRequest.put(Constants.timestamp, String.valueOf(System.currentTimeMillis()));
+            
+            // Pull comment & submit it
+            try {
+                String commentText = (String) newVoteRequest.remove(Constants.comment);
+                // Submit the comment
+                if (!commentText.isEmpty()) {
+
+                    CommentSubmitter commentSubmitter = new CommentSubmitter()
+                            .id(GUID.generate())
+                            .voteID(newVoteRequest.getString(Constants.id))
+                            .articleID(articleID)
+                            .userID("user1234")
+                            .timestamp(newVoteRequest.getString(Constants.timestamp))
+                            .text(commentText);
+
+                    commentSubmitter.start();
+
+                }
+            } catch (JSONException e) {
+                System.out.println(e.getMessage());
+                // ignored
+            }
+            
                         
             JSONObject articleData;
             JSONArray articleVotes;
@@ -59,31 +86,7 @@ public class VoteSubmitter extends Thread {
             // Put Article data snapshot into new Vote
             newVoteRequest.put(Constants.articleMetrics, articleMetricsSnapshot);
             
-            // Put ID & timestamp into new Vote
-            newVoteRequest.put(Constants.id, GUID.generate());
-            newVoteRequest.put(Constants.timestamp, String.valueOf(System.currentTimeMillis()));
             
-            // Pull comment & submit it
-            try {
-                String commentText = (String) newVoteRequest.remove(Constants.comment);
-                // Submit the comment
-                if (!commentText.isEmpty()) {
-
-                    CommentSubmitter commentSubmitter = new CommentSubmitter()
-                            .id(GUID.generate())
-                            .voteID(newVoteRequest.getString(Constants.id))
-                            .articleID(articleID)
-                            .userID("user1234")
-                            .timestamp(newVoteRequest.getString(Constants.timestamp))
-                            .text(commentText);
-
-                    commentSubmitter.start();
-
-                }
-            } catch (JSONException e) {
-                System.out.println(e.getMessage());
-                // ignored
-            }
             
    
             // Put vote in DB
