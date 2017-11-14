@@ -77,7 +77,7 @@ public class VoteSubmitter extends Thread {
                             .timestamp(newVoteRequest.getString(Constants.timestamp))
                             .text(commentText);
 
-                    commentSubmitter.submit();
+                    commentSubmitter.start();
 
                 }
             } catch (JSONException e) {

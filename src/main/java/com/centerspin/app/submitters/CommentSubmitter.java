@@ -5,7 +5,7 @@ import org.json.*;
 import javax.ws.rs.*;
 import com.centerspin.utils.*;
 
-public class CommentSubmitter {
+public class CommentSubmitter extends Thread {
 
     private String id;
     private String userID;
@@ -44,7 +44,7 @@ public class CommentSubmitter {
         return this;
     }
     
-    public void submit() {
+    public void run() {
         
         JSONObject commentRequest = new JSONObject();
         

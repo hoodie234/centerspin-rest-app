@@ -17,6 +17,28 @@ public class ArticleSubmitter {
         articleData.put(Constants.id, GUID.generate());
         articleData.put(Constants.timestamp, String.valueOf(System.currentTimeMillis()));
         
+        // Submit comment if present
+        String comment;
+        try {
+            comment = (String) articleData.remove(Constants.comment);
+        } catch (JSONException e) {
+            // No comment present
+            return;
+        }
+         
+        if (comment != null && !comment.isEmpty()) {
+
+            CommentSubmitter commentSubmitter = new CommentSubmitter()
+                    .id(GUID.generate())
+                    .articleID(articleData.getString(Constants.id))
+                    .userID("user1234")
+                    .timestamp(articleData.getString(Constants.timestamp))
+                    .text(comment);
+
+            commentSubmitter.start();
+
+        }
+        
         // Add empty set of bias metrics to articleData
         JSONObject biasMetrics = new JSONObject();
         biasMetrics.put(Constants.contentRating, -1);
@@ -36,26 +58,6 @@ public class ArticleSubmitter {
         new HttpRequest(Constants.API_BASE_URL + "/articles").requestBody(newArticleRequest.toString()).post();   
        
               
-        // Submit comment if present
-        String comment;
-        try {
-            comment = articleData.getString(Constants.comment);
-        } catch (JSONException e) {
-            // No comment present
-            return;
-        }
-         
-        if (comment != null && !comment.isEmpty()) {
-
-            CommentSubmitter commentSubmitter = new CommentSubmitter()
-                    .id(GUID.generate())
-                    .articleID(articleData.getString(Constants.id))
-                    .userID("user1234")
-                    .timestamp(articleData.getString(Constants.timestamp))
-                    .text(comment);
-
-            commentSubmitter.submit();
-
-        }
+        
     }
 }
