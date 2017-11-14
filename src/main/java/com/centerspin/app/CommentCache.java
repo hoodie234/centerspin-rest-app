@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 public class CommentCache {
 
-    private final Map<String, List<JSONObject>> commentMap = new ConcurrentHashMap<>();;
+    private Map<String, List<JSONObject>> commentMap = new ConcurrentHashMap<>();;
     
     private final Timer commentUpdater;
     private final int THIRTY_SECONDS = 30 * 1000;
@@ -20,7 +20,6 @@ public class CommentCache {
         commentUpdater = new Timer();
         commentUpdater.schedule(new CommentUpdater(), THIRTY_SECONDS, THIRTY_SECONDS);
     }
-    
     
     
     public List<JSONObject> getCommentsForArticle(String articleID) {
@@ -35,6 +34,8 @@ public class CommentCache {
     
     private void loadAllComments() {
         
+        Map<String, List<JSONObject>> updatedCommentMap = new ConcurrentHashMap<>();
+        
         JSONArray allComments;
         try {
             allComments = new HttpRequest(Constants.API_BASE_URL + "/comments").get().toJSONArray();
@@ -48,16 +49,18 @@ public class CommentCache {
                         
             String articleID = comment.getString(Constants.articleID);
             
-            if (commentMap.containsKey(articleID)) {
-                commentMap.get(articleID).add(comment);
+            if (updatedCommentMap.containsKey(articleID)) {
+                updatedCommentMap.get(articleID).add(comment);
             } else {
                 
                 List<JSONObject> commentsForArticle = new LinkedList<>();
                 commentsForArticle.add(comment);
-                commentMap.put(articleID, commentsForArticle);
+                updatedCommentMap.put(articleID, commentsForArticle);
             }
             
         }
+        
+        commentMap = updatedCommentMap;
         
     }
     
