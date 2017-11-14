@@ -85,9 +85,7 @@ public class VoteSubmitter extends Thread {
                         
             // Put Article data snapshot into new Vote
             newVoteRequest.put(Constants.articleMetrics, articleMetricsSnapshot);
-            
-            
-            
+        
    
             // Put vote in DB
             try {
@@ -111,7 +109,6 @@ public class VoteSubmitter extends Thread {
                         .post();
             } catch (IOException e) {
                 System.out.println("Error updating article " + e.getMessage());
-                e.printStackTrace();
                 throw new WebApplicationException("Error updating article via API gateway", e);
             }
 

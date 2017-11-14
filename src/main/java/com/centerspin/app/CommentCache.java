@@ -10,13 +10,12 @@ import org.json.JSONObject;
 
 public class CommentCache {
 
-    private final Map<String, List<JSONObject>> commentMap;
+    private final Map<String, List<JSONObject>> commentMap = new ConcurrentHashMap<>();;
     
     private final Timer commentUpdater;
     private final int THIRTY_SECONDS = 30 * 1000;
     
     public CommentCache() {
-        commentMap = new ConcurrentHashMap<>();
         loadAllComments();
         commentUpdater = new Timer();
         commentUpdater.schedule(new CommentUpdater(), THIRTY_SECONDS, THIRTY_SECONDS);

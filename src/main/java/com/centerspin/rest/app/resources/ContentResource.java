@@ -43,11 +43,7 @@ public class ContentResource {
     @GET
     @Path("comments/{article-id}")
     public String getCommentsForArticle(@PathParam("article-id") String articleID) {
-        
-        JSONArray articles = new JSONArray(commentCache.getCommentsForArticle(articleID));
-        
-        System.out.println(articles.length());
-        return articles.toString();
+        return new JSONArray(commentCache.getCommentsForArticle(articleID)).toString();
     }
     
 }
