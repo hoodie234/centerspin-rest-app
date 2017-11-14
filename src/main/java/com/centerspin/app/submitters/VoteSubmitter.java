@@ -59,12 +59,14 @@ public class VoteSubmitter extends Thread {
                         
             // Put Article data snapshot into new Vote
             newVoteRequest.put(Constants.articleMetrics, articleMetricsSnapshot);
+            
+            // Put ID & timestamp into new Vote
             newVoteRequest.put(Constants.id, GUID.generate());
             newVoteRequest.put(Constants.timestamp, System.currentTimeMillis());
             
             // Pull comment & submit it
             try {
-                String commentText = (String)newVoteRequest.remove(Constants.comment);
+                String commentText = (String) newVoteRequest.remove(Constants.comment);
                 
                 // Submit the comment
                 if (!commentText.isEmpty()) {
@@ -84,8 +86,7 @@ public class VoteSubmitter extends Thread {
                 // ignored
             }
             
-            
-                        
+   
             // Put vote in DB
             try {
                 new HttpRequest(Constants.API_BASE_URL + "/votes")
@@ -111,9 +112,6 @@ public class VoteSubmitter extends Thread {
                 e.printStackTrace();
                 throw new WebApplicationException("Error updating article via API gateway", e);
             }
-            
-     
-            
-     
+
         }
     }
