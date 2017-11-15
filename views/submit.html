@@ -1,36 +1,21 @@
-<!DOCTYPE html>
+<div class="md-content" layout="row" flex>
+    <md-input-container class="md-block" flex>
+            <label>Article Url</label>
+            <input ng-model="articleSubmitObj.url">
+    </md-input-container>
+    <md-button ng-disabled="articleSubmitObj.url == ''" class="md-raised md-primary md-block" style="height:30px !important; margin:auto !important;" ng-click="submitArticle()">Submit</md-button>  
+</div>
+
+
+
+
+    
+<!-- <p>Welcome to the submit page</p>
 <html>
     <head>
-        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-          <!-- Angular Material requires Angular.js Libraries -->
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
-        <!-- Angular Material Library -->
-        <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
-
-        <script src="scripts/centerspinMain.js"></script>
-
-        
-    
-        <title>Start Page</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        
-        <style>
-            
-            #submit {
-                display: none;
-            }
-            .text-center{
-                text-align:  center !important;
-            }
-        </style>
     </head>
-    <body layout="row"  layout-align="center" ng-controller="centerspinMainCtrl" ng-app="centerspinApp">
-        <md-toolbar class="text-center">
+    <body layout="row"  layout-align="center"> -->
+        <!-- <md-toolbar class="text-center">
             <h2 flex md-truncate>CenterSpin</h2>
         </md-toolbar>
         <md-content layout-gt-sm class="md-content md-padding">
@@ -45,17 +30,16 @@
                     Explore
                 </md-nav-item>
             </md-navbar>
-        </md-content>
+        </md-content> -->
 
-        <p>Welcome to the submit page</p>
         
         
-        <input id="url" type="text" placeholder="Article URL">
+        <!-- <input id="url" type="text" placeholder="Article URL">
         <button id="scrape">Submit URL</button>
         
         <div id="results"></div>
         
-        <button id="submit">Submit Article</button>
+        <button id="submit">Submit Article</button> -->
         
         <script>
             
@@ -99,5 +83,5 @@
             });
             
         </script>
-    </body>
-</html>
+    <!-- </body>
+</html> -->

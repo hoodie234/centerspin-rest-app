@@ -3,8 +3,36 @@
     <head>
         <title>Start Page</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!-- Jquery !-->
+        <script src="scripts/jquery.min.js"></script>
+        <!-- Angular !--> 
+        <script src="scripts/angular.min.js"></script>
+        <script src="scripts/angular-animate.min.js"></script>
+        <script src="scripts/angular-aria.min.js"></script>
+        <script src="scripts/angular-messages.min.js"></script>
+        <script src="scripts/angular-route.min.js"></script>
+        <!-- Angular Material Library -->
+        <script src="scripts/angular-material.min.js"></script>
+        <!-- Models for testing !-->
+        <script src="services/models.js"></script>   
+        <!-- Main app !--> 
+        <script src="app.js"></script>  
+        <!-- Styles !--> 
+        <link rel="stylesheet" href="styles/angular-material.min.css">
+        <link rel="stylesheet" href="styles/app.css"> 
+        <link href="https://fonts.googleapis.com/css?family=Indie+Flower|Old+Standard+TT|Open+Sans|Raleway|Ubuntu" rel="stylesheet"> 
     </head>
-    <body>
-        <a href="submit.html">Submit Page</a>
+
+    <body layout="column" ng-app="centerspinApp" ng-controller="centerspinMainCtrl" ng-cloak>
+        <!-- <a href="submit.html">Submit Page</a> -->
+        <md-toolbar class="text-center">
+            <h2 flex md-truncate>CenterSpin</h2>
+        </md-toolbar>
+        <md-nav-bar md-selected-nav-item="currentPage" nav-bar-aria-label="navigation links" class="stretch-tabs">
+                <md-nav-item md-nav-href="#/profile" name="profile">Profile</md-nav-item>
+                <md-nav-item md-nav-href="#/submit" name="submit">Submit</md-nav-item>
+            </md-nav-bar>
+        <md-content layout-gt-sm class="md-content md-padding" ng-view>
+        </md-content>
     </body>
 </html>

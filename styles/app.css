@@ -1,0 +1,24 @@
+#submit {
+    display: none;
+}
+.text-center{
+    text-align:  center !important;
+}
+
+/* md nav tabs stretch */
+.stretch-tabs ul {
+    display: table;
+    width: 100%;
+}
+.stretch-tabs li {
+    display: table-cell;
+}
+.stretch-tabs a {
+    width: 100%;
+}
+.stretch-tabs :first-of-type {
+    margin: 0;
+}
+body{
+    font-family: 'Old Standard TT', serif;
+}
